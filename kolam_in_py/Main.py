@@ -172,3 +172,27 @@ class KolamGenerator:
                     next_grid[idx] = Cell(options)
 
         self.grid = cast(List[Cell], next_grid)
+
+    def step(self):
+        if all(c.collapsed for c in self.grid):
+            return
+
+        self.collapse_one()
+        self.update_neighbors()
+
+    def draw(self):
+        w = WIDTH / DIM
+        h = HEIGHT / DIM
+        for j in range(DIM):
+            for i in range(DIM):
+                cell = self.grid[i + j * DIM]
+                rect = pygame.Rect(i * w, j * h, w, h)
+                if cell.collapsed:
+                    index = cell.options[0]
+                    # draw tile image scaled to cell size
+                    tile_img = self.tiles[index].img
+                    img_surf = pygame.transform.smoothscale(tile_img, (int(w), int(h)))
+                    self.screen.blit(img_surf, rect.topleft)
+                else:
+                    # draw grid rectangle for undecided cell
+                    pygame.draw.rect(self.screen, (70, 70, 70), rect, 1)
