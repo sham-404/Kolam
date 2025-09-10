@@ -196,3 +196,83 @@ class KolamGenerator:
                 else:
                     # draw grid rectangle for undecided cell
                     pygame.draw.rect(self.screen, (70, 70, 70), rect, 1)
+
+
+def main():
+    pygame.init()
+    pygame.display.set_caption("Wave Function Collapse (pygame)")
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    clock = pygame.time.Clock()
+
+    tile_images = load_tile_images(TILE_PATH, IMAGE_COUNT, tile_size=64)
+
+    kolam = KolamGenerator(screen, tile_images)
+
+    running = True
+    paused = False
+
+    # we will run step() once per N frames to slow things a bit (so you can watch it)
+    # but we also allow a faster mode by pressing SPACE to run fast.
+    frames_between_steps = 1
+    frame_count = 0
+
+    font = pygame.font.SysFont("Arial", 16)
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                break
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+                    break
+
+                elif event.key == pygame.K_r:
+                    kolam.start_over()
+
+                elif event.key == pygame.K_SPACE:
+                    # toggle fast mode
+                    if frames_between_steps == 1:
+                        frames_between_steps = 0
+                    else:
+                        frames_between_steps = 1
+
+                elif event.key == pygame.K_p:
+                    paused = not paused
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                kolam.start_over()
+
+        if not paused:
+            if frames_between_steps == 0:
+                # very fast (collapse many times per frame)
+                for _ in range(200):
+                    kolam.step()
+            else:
+                if frame_count % frames_between_steps == 0:
+                    kolam.step()
+            frame_count += 1
+
+        screen.fill((30, 30, 30))
+        kolam.draw()
+
+        screen.blit(
+            font.render(
+                "R: restart  SPACE: fast toggle  P: pause  Click: restart",
+                True,
+                (0, 0, 0),
+            ),
+            (8, HEIGHT - 24),
+        )
+
+        pygame.display.flip()
+        clock.tick(FPS)
+
+    pygame.quit()
+    sys.exit()
+
+
+if __name__ == "__main__":
+    main()
