@@ -5,10 +5,10 @@ import os, sys, random, pygame
 
 TILE_PATH = os.path.join("tiles", "kolam_tiles")
 IMAGE_COUNT = 6
-DIM = 10
+DIM = 12
 WIDTH = 600
 HEIGHT = 600
-FPS = 120
+FPS = 60
 
 
 def load_tile_images(path, count, tile_size=64):
@@ -262,7 +262,7 @@ def main():
             font.render(
                 "R: restart  SPACE: fast toggle  P: pause  Click: restart",
                 True,
-                (0, 0, 0),
+                (0, 0, 200),
             ),
             (8, HEIGHT - 24),
         )
