@@ -1,4 +1,5 @@
 from Tile import Tile, Cell
+from typing import List, Optional, cast
 
 import os, sys, random, pygame
 
@@ -42,8 +43,8 @@ class KolamGenerator:
     def __init__(self, screen, tile_images):
         self.screen = screen
         self.tile_images = tile_images
-        self.tiles = []
-        self.grid = []
+        self.tiles: List[Tile] = []
+        self.grid: List[Cell] = []
         self.setup_tiles()
         self.start_over()
 
@@ -117,3 +118,57 @@ class KolamGenerator:
 
         pick = random.choice(chosen.options)
         chosen.options = [pick]
+
+    def update_neighbors(self):
+        next_grid: List[Optional[Cell]] = [None] * (DIM * DIM)
+        for j in range(DIM):
+            for i in range(DIM):
+                idx = i + j * DIM
+                if self.grid[idx].collapsed:
+                    next_grid[idx] = self.grid[idx]
+
+                else:
+                    # start with all options
+                    options = [k for k in range(len(self.tiles))]
+
+                    # up neighbor
+                    if j > 0:
+                        up = self.grid[i + (j - 1) * DIM]
+                        valid_options = []
+                        for opt in up.options:
+                            valid_options.extend(self.tiles[opt].down)
+                        check_valid(options, valid_options)
+
+                    # right neighbor
+                    if i < DIM - 1:
+                        right = self.grid[i + 1 + j * DIM]
+                        valid_options = []
+                        for opt in right.options:
+                            valid_options.extend(self.tiles[opt].left)
+                        check_valid(options, valid_options)
+
+                    # down neighbor
+                    if j < DIM - 1:
+                        down = self.grid[i + (j + 1) * DIM]
+                        valid_options = []
+                        for opt in down.options:
+                            valid_options.extend(self.tiles[opt].up)
+                        check_valid(options, valid_options)
+
+                    # left neighbor
+                    if i > 0:
+                        left = self.grid[i - 1 + j * DIM]
+                        valid_options = []
+                        for opt in left.options:
+                            valid_options.extend(self.tiles[opt].right)
+                        check_valid(options, valid_options)
+
+                    # if no options, contradiction -> restart whole grid
+                    if len(options) == 0:
+                        print("[WFC] contradiction found - restarting")
+                        self.start_over()
+                        return
+
+                    next_grid[idx] = Cell(options)
+
+        self.grid = cast(List[Cell], next_grid)
