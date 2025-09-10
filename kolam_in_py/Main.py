@@ -3,12 +3,12 @@ from typing import List, Optional, cast
 
 import os, sys, random, pygame
 
-TILE_PATH = os.path.join("tiles", "circuit")
-IMAGE_COUNT = 13
-DIM = 25
+TILE_PATH = os.path.join("tiles", "kolam_tiles")
+IMAGE_COUNT = 6
+DIM = 10
 WIDTH = 600
 HEIGHT = 600
-FPS = 60
+FPS = 120
 
 
 def load_tile_images(path, count, tile_size=64):

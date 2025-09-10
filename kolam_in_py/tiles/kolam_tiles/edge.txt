@@ -1,0 +1,12 @@
+base_edges = [
+            ["00", "00", "00", "00"],  # Edge socket for each img
+            ["00", "00", "01", "10"],  # runs clockwise (UP, RIGHT, DOWN, LEFT)
+            ["10", "00", "01", "11"],
+            ["10", "01", "11", "11"],
+            ["11", "11", "11", "11"],
+            ["10", "01", "10", "01"],
+        ]
+
+
+# Change this in the load_tiles function
+# Change IMAGE_COUNT = 6 and TILE_PATH = os.path.join("tiles", "kolam_tiles")
