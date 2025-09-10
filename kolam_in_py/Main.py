@@ -55,19 +55,12 @@ class KolamGenerator:
 
     def setup_tiles(self):
         base_edges = [
-            ["AAA", "AAA", "AAA", "AAA"],  # Edge socket for each img
-            ["BBB", "BBB", "BBB", "BBB"],  # runs clockwise (UP, RIGHT, DOWN, LEFT)
-            ["BBB", "BCB", "BBB", "BBB"],
-            ["BBB", "BDB", "BBB", "BDB"],
-            ["ABB", "BCB", "BBA", "AAA"],
-            ["ABB", "BBB", "BBB", "BBA"],
-            ["BBB", "BCB", "BBB", "BCB"],
-            ["BDB", "BCB", "BDB", "BCB"],
-            ["BDB", "BBB", "BCB", "BBB"],
-            ["BCB", "BCB", "BBB", "BCB"],
-            ["BCB", "BCB", "BCB", "BCB"],
-            ["BCB", "BCB", "BBB", "BBB"],
-            ["BBB", "BCB", "BBB", "BCB"],
+            ["00", "00", "00", "00"],  # Edge socket for each img
+            ["00", "00", "01", "10"],  # runs clockwise (UP, RIGHT, DOWN, LEFT)
+            ["10", "00", "01", "11"],
+            ["10", "01", "11", "11"],
+            ["11", "11", "11", "11"],
+            ["10", "01", "10", "01"],
         ]
 
         imgs = self.tile_images
