@@ -1,11 +1,13 @@
-from Tile import Tile, Cell
+from TileData import Tile, Cell
 from typing import List, Optional, cast
-
+import TileData
 import os, sys, random, pygame
 
 
-TILE_PATH = os.path.join("tiles", "KolamTiles1")
-IMAGE_COUNT = 5
+tile_data = TileData.KolamTiles1  # Add your needed tile set
+
+TILE_PATH = tile_data.path
+IMAGE_COUNT = tile_data.img_count
 DIM = 15
 WIDTH = 600
 HEIGHT = 600
@@ -55,13 +57,7 @@ class KolamGenerator:
             self.grid.append(Cell(len(self.tiles)))
 
     def setup_tiles(self):
-        base_edges = [
-            ["000", "010", "010", "000"],  # Edge socket for each img
-            ["010", "010", "010", "000"],  # runs clockwise (UP, RIGHT, DOWN, LEFT)
-            ["010", "010", "010", "010"],
-            ["000", "010", "000", "000"],
-            ["010", "000", "010", "000"],
-        ]
+        base_edges = tile_data.base_edges  # Socket rules
 
         imgs = self.tile_images
 
