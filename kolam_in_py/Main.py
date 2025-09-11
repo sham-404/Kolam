@@ -3,9 +3,10 @@ from typing import List, Optional, cast
 
 import os, sys, random, pygame
 
-TILE_PATH = os.path.join("tiles", "kolam_tiles")
-IMAGE_COUNT = 6
-DIM = 12
+
+TILE_PATH = os.path.join("tiles", "KolamTiles1")
+IMAGE_COUNT = 5
+DIM = 15
 WIDTH = 600
 HEIGHT = 600
 FPS = 60
@@ -55,12 +56,11 @@ class KolamGenerator:
 
     def setup_tiles(self):
         base_edges = [
-            ["00", "00", "00", "00"],  # Edge socket for each img
-            ["00", "00", "01", "10"],  # runs clockwise (UP, RIGHT, DOWN, LEFT)
-            ["10", "00", "01", "11"],
-            ["10", "01", "11", "11"],
-            ["11", "11", "11", "11"],
-            ["10", "01", "10", "01"],
+            ["000", "010", "010", "000"],  # Edge socket for each img
+            ["010", "010", "010", "000"],  # runs clockwise (UP, RIGHT, DOWN, LEFT)
+            ["010", "010", "010", "010"],
+            ["000", "010", "000", "000"],
+            ["010", "000", "010", "000"],
         ]
 
         imgs = self.tile_images

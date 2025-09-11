@@ -1,4 +1,4 @@
-import pygame
+import pygame, os
 
 
 class Tile:
@@ -46,3 +46,51 @@ class Cell:
             self.options = list(value)
         else:
             self.options = [i for i in range(value)]
+
+
+class Circuit:
+    base_edges = [
+        ["AAA", "AAA", "AAA", "AAA"],  # Edge socket for each img
+        ["BBB", "BBB", "BBB", "BBB"],  # runs clockwise (UP, RIGHT, DOWN, LEFT)
+        ["BBB", "BCB", "BBB", "BBB"],
+        ["BBB", "BDB", "BBB", "BDB"],
+        ["ABB", "BCB", "BBA", "AAA"],
+        ["ABB", "BBB", "BBB", "BBA"],
+        ["BBB", "BCB", "BBB", "BCB"],
+        ["BDB", "BCB", "BDB", "BCB"],
+        ["BDB", "BBB", "BCB", "BBB"],
+        ["BCB", "BCB", "BBB", "BCB"],
+        ["BCB", "BCB", "BCB", "BCB"],
+        ["BCB", "BCB", "BBB", "BBB"],
+        ["BBB", "BCB", "BBB", "BCB"],
+    ]
+
+    img_count = 13
+    path = os.path.join("tiles", "Circuit")
+
+
+class KolamTiles0:
+    base_edges = [
+        ["00", "00", "00", "00"],  # Edge socket for each img
+        ["00", "00", "01", "10"],  # runs clockwise (UP, RIGHT, DOWN, LEFT)
+        ["10", "00", "01", "11"],
+        ["10", "01", "11", "11"],
+        ["11", "11", "11", "11"],
+        ["10", "01", "10", "01"],
+    ]
+
+    img_count = 6
+    path = os.path.join("tiles", "KolamTiles0")
+
+
+class KolamTiles1:
+    base_edges = [
+        ["000", "010", "010", "000"],  # Edge socket for each img
+        ["010", "010", "010", "000"],  # runs clockwise (UP, RIGHT, DOWN, LEFT)
+        ["010", "010", "010", "010"],
+        ["000", "010", "000", "000"],
+        ["010", "000", "010", "000"],
+    ]
+
+    img_count = 5
+    path = os.path.join("tiles", "KolamTiles1")
