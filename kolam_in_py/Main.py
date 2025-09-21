@@ -190,7 +190,7 @@ class KolamGenerator:
 def main():
     pygame.init()
     pygame.display.set_caption("Wave Function Collapse (pygame)")
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT + 26))
     clock = pygame.time.Clock()
 
     tile_images = load_tile_images(TILE_PATH, IMAGE_COUNT, tile_size=64)
@@ -251,9 +251,9 @@ def main():
             font.render(
                 "R: restart  SPACE: fast toggle  P: pause  Click: restart",
                 True,
-                (0, 0, 200),
+                (225, 225, 225),
             ),
-            (8, HEIGHT - 24),
+            (8, HEIGHT),
         )
 
         pygame.display.flip()
