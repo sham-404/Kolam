@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Wave Function Collapse (Flutter)',
         theme: ThemeData.dark(),
+        
         home: const WfcScreen(),
       ),
     );
@@ -82,7 +83,7 @@ class _WfcScreenState extends State<WfcScreen> {
           ),
           // UI Controls
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(24),
             child: ElevatedButton(
               onPressed: () => controller.startOver(),
               child: const Text('Restart'),
