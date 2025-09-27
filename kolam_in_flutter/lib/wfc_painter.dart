@@ -34,7 +34,7 @@ class WfcPainter extends CustomPainter {
           canvas.drawRect(
             rect,
             Paint()
-              ..color = Colors.grey.shade800
+              ..color = const Color.fromARGB(255, 46, 44, 44)
               ..style = PaintingStyle.stroke,
           );
         }
