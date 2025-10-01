@@ -107,6 +107,6 @@ class Button:
             color = self.colors["normal"]
 
         pygame.draw.rect(screen, color, self.rect, border_radius=self.border_radius)
-        text_surf = self.font.render(self.text, True, "white")
+        text_surf = self.font.render(self.text, True, Colors.BLACK)
         text_rect = text_surf.get_rect(center=self.rect.center)
         screen.blit(text_surf, text_rect)
