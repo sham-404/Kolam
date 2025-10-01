@@ -229,6 +229,7 @@ def main():
         width=90,
         height=20,
         text="Pause (p)",
+        toggle=True,
     )
 
     fast_toggle_btn = Button(
@@ -237,6 +238,7 @@ def main():
         width=90,
         height=20,
         text="Fast Toggle",
+        toggle=True,
     )
 
     exit_btn = Button(
