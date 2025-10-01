@@ -194,32 +194,57 @@ def main():
     global DIM, width, height
     pygame.init()
     pygame.display.set_caption("Wave Function Collapse (pygame)")
-    screen = pygame.display.set_mode((WIDTH, HEIGHT + 52))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT + 82))
     clock = pygame.time.Clock()
 
-    btn_pad = 5
+    btn_pad_x = 17
+    btn_pad_y = 7
     dim_inc_btn = Button(
-        x=btn_pad,
-        y=HEIGHT + btn_pad,
+        x=btn_pad_x,
+        y=HEIGHT + btn_pad_y,
         width=90,
         height=20,
         text="Increase Dim",
     )
 
     dim_dcr_btn = Button(
-        x=dim_inc_btn.get_topright()[0] + btn_pad,
-        y=HEIGHT + btn_pad,
+        x=dim_inc_btn.get_topright()[0] + btn_pad_x,
+        y=HEIGHT + btn_pad_y,
         width=90,
         height=20,
         text="Decrease Dim",
     )
 
     restart_btn = Button(
-        x=dim_dcr_btn.get_topright()[0] + btn_pad,
-        y=HEIGHT + btn_pad,
+        x=dim_dcr_btn.get_topright()[0] + btn_pad_x,
+        y=HEIGHT + btn_pad_y,
         width=90,
         height=20,
         text="Restart (r)",
+    )
+
+    pause_btn = Button(
+        x=restart_btn.get_topright()[0] + btn_pad_x,
+        y=HEIGHT + btn_pad_y,
+        width=90,
+        height=20,
+        text="Pause (p)",
+    )
+
+    fast_toggle_btn = Button(
+        x=dim_inc_btn.get_bottomleft()[0],
+        y=dim_inc_btn.get_bottomleft()[1] + btn_pad_y,
+        width=90,
+        height=20,
+        text="Fast Toggle",
+    )
+
+    exit_btn = Button(
+        x=dim_dcr_btn.get_bottomleft()[0],
+        y=dim_dcr_btn.get_bottomleft()[1] + btn_pad_y,
+        width=90,
+        height=20,
+        text="Exit (Esc)",
     )
 
     tile_images = load_tile_images(TILE_PATH, IMAGE_COUNT, tile_size=64)
@@ -240,22 +265,13 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-                break
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-                    break
 
                 elif event.key == pygame.K_r:
                     kolam.start_over()
-
-                elif event.key == pygame.K_SPACE:
-                    # toggle fast mode
-                    if frames_between_steps == 1:
-                        frames_between_steps = 0
-                    else:
-                        frames_between_steps = 1
 
                 elif event.key == pygame.K_p:
                     paused = not paused
@@ -280,6 +296,18 @@ def main():
             elif restart_btn.check_click(event):
                 kolam.start_over()
 
+            elif pause_btn.check_click(event):
+                paused = not paused
+
+            elif fast_toggle_btn.check_click(event):
+                if frames_between_steps == 1:
+                    frames_between_steps = 0
+                else:
+                    frames_between_steps = 1
+
+            elif exit_btn.check_click(event):
+                running = False
+
         if not paused:
             if frames_between_steps == 0:
                 # very fast (collapse many times per frame)
@@ -296,6 +324,9 @@ def main():
         dim_inc_btn.draw(screen)
         dim_dcr_btn.draw(screen)
         restart_btn.draw(screen)
+        pause_btn.draw(screen)
+        fast_toggle_btn.draw(screen)
+        exit_btn.draw(screen)
 
         screen.blit(
             font.render(
@@ -303,7 +334,7 @@ def main():
                 True,
                 Colors.WHITE,
             ),
-            (8, HEIGHT + 30),
+            (8, HEIGHT + 60),
         )
 
         pygame.display.flip()
