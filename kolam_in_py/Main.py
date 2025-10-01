@@ -12,8 +12,8 @@ IMAGE_COUNT = tile_data.img_count
 DIM = 6
 WIDTH = 450
 HEIGHT = 450
-C_width: int = WIDTH
-C_height: int = HEIGHT
+width = WIDTH
+height = HEIGHT
 FPS = 60
 
 
@@ -173,8 +173,8 @@ class KolamGenerator:
         self.update_neighbors()
 
     def draw(self):
-        w = WIDTH / DIM
-        h = HEIGHT / DIM
+        w = width / DIM
+        h = height / DIM
         for j in range(DIM):
             for i in range(DIM):
                 cell = self.grid[i + j * DIM]
@@ -191,26 +191,35 @@ class KolamGenerator:
 
 
 def main():
-    global DIM, WIDTH, HEIGHT
+    global DIM, width, height
     pygame.init()
     pygame.display.set_caption("Wave Function Collapse (pygame)")
-    screen = pygame.display.set_mode((C_width, C_height + 52))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT + 52))
     clock = pygame.time.Clock()
 
+    btn_pad = 5
     dim_inc_btn = Button(
-        x=3,
-        y=C_height + 3,
+        x=btn_pad,
+        y=HEIGHT + btn_pad,
         width=90,
         height=20,
         text="Increase Dim",
     )
 
     dim_dcr_btn = Button(
-        x=dim_inc_btn.get_topright()[0] + 5,
-        y=C_width + 3,
+        x=dim_inc_btn.get_topright()[0] + btn_pad,
+        y=HEIGHT + btn_pad,
         width=90,
         height=20,
         text="Decrease Dim",
+    )
+
+    restart_btn = Button(
+        x=dim_dcr_btn.get_topright()[0] + btn_pad,
+        y=HEIGHT + btn_pad,
+        width=90,
+        height=20,
+        text="Restart (r)",
     )
 
     tile_images = load_tile_images(TILE_PATH, IMAGE_COUNT, tile_size=64)
@@ -253,8 +262,8 @@ def main():
 
             if dim_inc_btn.check_click(event):
                 DIM += 1
-                if WIDTH % DIM != 0:
-                    WIDTH = HEIGHT = (C_width // DIM) * DIM
+                if width % DIM != 0:
+                    width = height = (WIDTH // DIM) * DIM
 
                 kolam.start_over()
 
@@ -263,9 +272,12 @@ def main():
                     continue
 
                 DIM -= 1
-                if WIDTH % DIM != 0:
-                    WIDTH = HEIGHT = (C_width // DIM) * DIM
+                if width % DIM != 0:
+                    width = height = (WIDTH // DIM) * DIM
 
+                kolam.start_over()
+
+            elif restart_btn.check_click(event):
                 kolam.start_over()
 
         if not paused:
@@ -283,14 +295,15 @@ def main():
 
         dim_inc_btn.draw(screen)
         dim_dcr_btn.draw(screen)
+        restart_btn.draw(screen)
 
         screen.blit(
             font.render(
                 "R: restart  SPACE: fast toggle  P: pause  Click: restart",
                 True,
-                (225, 225, 225),
+                Colors.WHITE,
             ),
-            (8, C_height + 30),
+            (8, HEIGHT + 30),
         )
 
         pygame.display.flip()
