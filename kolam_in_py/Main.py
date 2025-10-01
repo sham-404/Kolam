@@ -194,7 +194,7 @@ def main():
     global DIM, width, height
     pygame.init()
     pygame.display.set_caption("Wave Function Collapse (pygame)")
-    screen = pygame.display.set_mode((WIDTH, HEIGHT + 82))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT + 60))
     clock = pygame.time.Clock()
 
     btn_pad_x = 17
@@ -261,7 +261,7 @@ def main():
     frames_between_steps = 1
     frame_count = 0
 
-    font = pygame.font.SysFont("Arial", 12)
+    # font = pygame.font.SysFont("Arial", 12)
 
     while running:
         for event in pygame.event.get():
@@ -329,15 +329,6 @@ def main():
         pause_btn.draw(screen)
         fast_toggle_btn.draw(screen)
         exit_btn.draw(screen)
-
-        screen.blit(
-            font.render(
-                "R: restart  SPACE: fast toggle  P: pause  Click: restart",
-                True,
-                Colors.WHITE,
-            ),
-            (8, HEIGHT + 60),
-        )
 
         pygame.display.flip()
         clock.tick(FPS)
