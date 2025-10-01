@@ -59,6 +59,18 @@ class Button:
         self.font = pygame.font.SysFont(font, font_size)
         self.pressed = False
 
+    def get_topleft(self):
+        return self.rect.topleft
+
+    def get_topright(self):
+        return self.rect.topright
+
+    def get_bottomleft(self):
+        return self.rect.bottomleft
+
+    def get_bottomright(self):
+        return self.rect.bottomright
+
     def check_click(self, event):
         action = False
         mouse_pos = pygame.mouse.get_pos()
