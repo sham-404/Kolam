@@ -42,7 +42,7 @@ class WFCGenerator:
                 options.pop(i)
 
     def edge_filling(self):
-        edge_socket = "000"
+        edge_socket = tile_data.edge_constraint
 
         valid_up_indices = {
             i for i, tile in enumerate(self.tiles) if tile.edges[0] == edge_socket
@@ -82,7 +82,8 @@ class WFCGenerator:
         for _ in range(DIM * DIM):
             self.grid.append(Cell(len(self.tiles)))
 
-        self.edge_filling()
+        if tile_data.edge_constraint is not None:
+            self.edge_filling()
 
     def setup_tiles(self):
         base_edges = tile_data.base_edges  # Socket rules
