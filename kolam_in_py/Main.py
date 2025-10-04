@@ -41,10 +41,48 @@ class WFCGenerator:
             if options[i] not in valid_set:
                 options.pop(i)
 
+    def edge_filling(self):
+        edge_socket = "000"
+
+        valid_up_indices = {
+            i for i, tile in enumerate(self.tiles) if tile.edges[0] == edge_socket
+        }
+        valid_right_indices = {
+            i for i, tile in enumerate(self.tiles) if tile.edges[1] == edge_socket
+        }
+        valid_down_indices = {
+            i for i, tile in enumerate(self.tiles) if tile.edges[2] == edge_socket
+        }
+        valid_left_indices = {
+            i for i, tile in enumerate(self.tiles) if tile.edges[3] == edge_socket
+        }
+
+        for j in range(DIM):
+            for i in range(DIM):
+                is_on_edge = i == 0 or i == DIM - 1 or j == 0 or j == DIM - 1
+                if not is_on_edge:
+                    continue
+
+                idx = i + j * DIM
+                cell_options = set(self.grid[idx].options)
+
+                if j == 0:
+                    cell_options.intersection_update(valid_up_indices)
+                if j == DIM - 1:
+                    cell_options.intersection_update(valid_down_indices)
+                if i == 0:
+                    cell_options.intersection_update(valid_left_indices)
+                if i == DIM - 1:
+                    cell_options.intersection_update(valid_right_indices)
+
+                self.grid[idx].options = list(cell_options)
+
     def start_over(self):
         self.grid = []
         for _ in range(DIM * DIM):
             self.grid.append(Cell(len(self.tiles)))
+
+        self.edge_filling()
 
     def setup_tiles(self):
         base_edges = tile_data.base_edges  # Socket rules
@@ -108,7 +146,7 @@ class WFCGenerator:
 
                 else:
                     # start with all options
-                    options = [k for k in range(len(self.tiles))]
+                    options = list(self.grid[idx].options)
 
                     # up neighbor
                     if j > 0:
