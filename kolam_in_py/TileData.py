@@ -67,6 +67,7 @@ class Circuit:
 
     img_count = 13
     path = os.path.join("tiles", "Circuit")
+    edge_constraint = None
 
 
 class KolamTiles0:
@@ -81,6 +82,7 @@ class KolamTiles0:
 
     img_count = 6
     path = os.path.join("tiles", "KolamTiles0")
+    edge_constraint = None  # For now
 
 
 class KolamTiles1:
@@ -94,3 +96,4 @@ class KolamTiles1:
 
     img_count = 5
     path = os.path.join("tiles", "KolamTiles1")
+    edge_constraint = "000"
