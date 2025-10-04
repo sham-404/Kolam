@@ -17,35 +17,7 @@ height = HEIGHT
 FPS = 60
 
 
-def load_tile_images(path, count, tile_size=64):
-    images = []
-    for i in range(count):
-        fname = os.path.join(path, f"{i}.png")
-        img = pygame.image.load(fname).convert_alpha()
-        img = pygame.transform.smoothscale(img, (tile_size, tile_size))
-        images.append(img)
-
-    return images
-
-
-def remove_duplicated_tiles(tiles):
-    unique = {}
-    for tile in tiles:
-        key = ",".join(tile.edges)
-        if key not in unique:
-            unique[key] = tile
-
-    return list(unique.values())
-
-
-def check_valid(options, valid):
-    valid_set = set(valid)
-    for i in range(len(options) - 1, -1, -1):
-        if options[i] not in valid_set:
-            options.pop(i)
-
-
-class KolamGenerator:
+class WFCGenerator:
     def __init__(self, screen, tile_images):
         self.screen = screen
         self.tile_images = tile_images
@@ -53,6 +25,21 @@ class KolamGenerator:
         self.grid: List[Cell] = []
         self.setup_tiles()
         self.start_over()
+
+    def remove_duplicated_tiles(self, tiles):
+        unique = {}
+        for tile in tiles:
+            key = ",".join(tile.edges)
+            if key not in unique:
+                unique[key] = tile
+
+        return list(unique.values())
+
+    def check_valid(self, options, valid):
+        valid_set = set(valid)
+        for i in range(len(options) - 1, -1, -1):
+            if options[i] not in valid_set:
+                options.pop(i)
 
     def start_over(self):
         self.grid = []
@@ -75,13 +62,13 @@ class KolamGenerator:
             temp = []
             for rot in range(4):
                 temp.append(t.rotate(rot))
-            temp = remove_duplicated_tiles(temp)
+            temp = self.remove_duplicated_tiles(temp)
 
             for tt in temp:
                 tt.index = i  # base index
             tiles.extend(temp)
 
-        tiles = remove_duplicated_tiles(tiles)
+        tiles = self.remove_duplicated_tiles(tiles)
 
         for i, tile in enumerate(tiles):
             tile.index = i
@@ -129,7 +116,7 @@ class KolamGenerator:
                         valid_options = []
                         for opt in up.options:
                             valid_options.extend(self.tiles[opt].down)
-                        check_valid(options, valid_options)
+                        self.check_valid(options, valid_options)
 
                     # right neighbor
                     if i < DIM - 1:
@@ -137,7 +124,7 @@ class KolamGenerator:
                         valid_options = []
                         for opt in right.options:
                             valid_options.extend(self.tiles[opt].left)
-                        check_valid(options, valid_options)
+                        self.check_valid(options, valid_options)
 
                     # down neighbor
                     if j < DIM - 1:
@@ -145,7 +132,7 @@ class KolamGenerator:
                         valid_options = []
                         for opt in down.options:
                             valid_options.extend(self.tiles[opt].up)
-                        check_valid(options, valid_options)
+                        self.check_valid(options, valid_options)
 
                     # left neighbor
                     if i > 0:
@@ -153,7 +140,7 @@ class KolamGenerator:
                         valid_options = []
                         for opt in left.options:
                             valid_options.extend(self.tiles[opt].right)
-                        check_valid(options, valid_options)
+                        self.check_valid(options, valid_options)
 
                     # if no options, contradiction -> restart whole grid
                     if len(options) == 0:
@@ -187,7 +174,18 @@ class KolamGenerator:
                     self.screen.blit(img_surf, rect.topleft)
                 else:
                     # draw grid rectangle for undecided cell
-                    pygame.draw.rect(self.screen, (70, 70, 70), rect, 1)
+                    pygame.draw.rect(self.screen, Colors.MEDIUM_GRAY, rect, 1)
+
+
+def load_tile_images(path, count, tile_size=64):
+    images = []
+    for i in range(count):
+        fname = os.path.join(path, f"{i}.png")
+        img = pygame.image.load(fname).convert_alpha()
+        img = pygame.transform.smoothscale(img, (tile_size, tile_size))
+        images.append(img)
+
+    return images
 
 
 def main():
@@ -196,6 +194,8 @@ def main():
     pygame.display.set_caption("Wave Function Collapse (pygame)")
     screen = pygame.display.set_mode((WIDTH, HEIGHT + 60))
     clock = pygame.time.Clock()
+
+    # Creating Buttons
 
     btn_pad_x = 17
     btn_pad_y = 7
@@ -249,9 +249,10 @@ def main():
         text="Exit (Esc)",
     )
 
-    tile_images = load_tile_images(TILE_PATH, IMAGE_COUNT, tile_size=64)
+    # Start of program logic
 
-    kolam = KolamGenerator(screen, tile_images)
+    tile_images = load_tile_images(TILE_PATH, IMAGE_COUNT, tile_size=64)
+    kolam = WFCGenerator(screen, tile_images)
 
     running = True
     paused = False
@@ -320,7 +321,7 @@ def main():
                     kolam.step()
             frame_count += 1
 
-        screen.fill((30, 30, 30))
+        screen.fill(Colors.DARK_GRAY)
         kolam.draw()
 
         dim_inc_btn.draw(screen)
