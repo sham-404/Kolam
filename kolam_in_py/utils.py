@@ -59,6 +59,7 @@ class Button:
             "normal": Colors.TEAL,
             "hover": Colors.CYAN,
             "pressed": Colors.DARK_GREEN,
+            "toggled_hover": Colors.LIME,
         }
         self.font = pygame.font.SysFont(font, font_size)
         self.pressed = False
@@ -107,7 +108,17 @@ class Button:
         mouse_pos = pygame.mouse.get_pos()
 
         if self.toggle:
-            color = self.colors["pressed"] if self.toggled else self.colors["normal"]
+            if self.toggled and self.rect.collidepoint(mouse_pos):
+                color = self.colors["toggled_hover"]
+
+            elif self.toggled:
+                color = self.colors["pressed"]
+
+            elif self.rect.collidepoint(mouse_pos):
+                color = self.colors["hover"]
+
+            else:
+                color = self.colors["normal"]
 
         else:
             if self.pressed:

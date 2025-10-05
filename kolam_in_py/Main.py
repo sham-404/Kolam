@@ -9,9 +9,9 @@ tile_data = TileData.KolamTiles1  # Add your needed tile set
 
 TILE_PATH = tile_data.path
 IMAGE_COUNT = tile_data.img_count
-DIM = 6
-WIDTH = 450
-HEIGHT = 450
+DIM = 10
+WIDTH = 500
+HEIGHT = 500
 width = WIDTH
 height = HEIGHT
 FPS = 60
@@ -236,7 +236,7 @@ def main():
 
     # Creating Buttons
 
-    btn_pad_x = 17
+    btn_pad_x = (WIDTH - 360) // 5
     btn_pad_y = 7
     dim_inc_btn = Button(
         x=btn_pad_x,
@@ -326,7 +326,7 @@ def main():
                 kolam.start_over()
 
             elif dim_dcr_btn.check_click(event):
-                if DIM == 1:
+                if DIM == 2:
                     continue
 
                 DIM -= 1
