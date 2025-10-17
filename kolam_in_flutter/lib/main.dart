@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Wave Function Collapse (Flutter)',
         theme: ThemeData.dark(),
-        
+
         home: const WfcScreen(),
       ),
     );
@@ -69,9 +69,13 @@ class _WfcScreenState extends State<WfcScreen> {
         children: [
           Expanded(
             // --- NECESSARY CHANGES ARE HERE ---
-            child: Center( // 1. Added Center to keep the grid centered
-              child: Padding( // 2. Added Padding for breathing room
-                padding: const EdgeInsets.all(16.0), // 3. Set the padding amount
+            child: Center(
+              // 1. Added Center to keep the grid centered
+              child: Padding(
+                // 2. Added Padding for breathing room
+                padding: const EdgeInsets.all(
+                  16.0,
+                ), // 3. Set the padding amount
                 child: AspectRatio(
                   aspectRatio: 1.0,
                   child: CustomPaint(

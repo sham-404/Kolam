@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'wfc_logic.dart'; // Import our logic
-import 'dart:ui' as ui;
+// import 'dart:ui' as ui;
 
 class WfcPainter extends CustomPainter {
   final WfcController controller;
