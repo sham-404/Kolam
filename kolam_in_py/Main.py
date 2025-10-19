@@ -4,6 +4,7 @@ from utils import Button, Colors
 import TileData
 import os, sys, random, pygame
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 tile_data = TileData.KolamTiles1  # Add your needed tile set
 
@@ -216,16 +217,16 @@ class WFCGenerator:
                     pygame.draw.rect(self.screen, Colors.MEDIUM_GRAY, rect, 1)
 
 
+
 def load_tile_images(path, count, tile_size=64):
     images = []
     for i in range(count):
-        fname = os.path.join(path, f"{i}.png")
+        fname = os.path.join(BASE_DIR, path, f"{i}.png")
         img = pygame.image.load(fname).convert_alpha()
         img = pygame.transform.smoothscale(img, (tile_size, tile_size))
         images.append(img)
 
     return images
-
 
 def main():
     global DIM, width, height
