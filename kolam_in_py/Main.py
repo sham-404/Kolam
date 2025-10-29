@@ -1,12 +1,12 @@
-from TileData import Tile, Cell
+from TileData import *
 from typing import List, Optional, cast
 from utils import Button, Colors
-import TileData
 import os, sys, random, pygame
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-tile_data = TileData.KolamTiles1  # Add your needed tile set
+TILE_SET = [KolamTiles1, KolamTiles0, Circuit]
+tile_data = KolamTiles1  # Add your needed tile set
 
 TILE_PATH = tile_data.path
 IMAGE_COUNT = tile_data.img_count
@@ -228,6 +228,16 @@ def load_tile_images(path, count, tile_size=64):
 
     return images
 
+def change_tileset(screen):
+    global TILE_PATH, IMAGE_COUNT, tile_data, tile_images, kolam
+    tile_data = TILE_SET[(TILE_SET.index(tile_data) + 1) % len(TILE_SET)]
+    TILE_PATH = tile_data.path
+    IMAGE_COUNT = tile_data.img_count
+    tile_images = load_tile_images(TILE_PATH, IMAGE_COUNT, tile_size=64)
+    return WFCGenerator(screen, tile_images)
+    
+
+
 def main():
     global DIM, width, height
     pygame.init()
@@ -287,6 +297,14 @@ def main():
         width=90,
         height=20,
         text="Exit (Esc)",
+    )
+
+    tile_switch_btn = Button(
+        x=restart_btn.get_bottomleft()[0],
+        y=restart_btn.get_bottomleft()[1] + btn_pad_y,
+        width=90,
+        height=20,
+        text="Change tiles",
     )
 
     # Start of program logic
@@ -351,6 +369,10 @@ def main():
             elif exit_btn.check_click(event):
                 running = False
 
+            elif tile_switch_btn.check_click(event):
+                kolam = change_tileset(screen)
+                kolam.start_over()
+
         if not paused:
             if frames_between_steps == 0:
                 # very fast (collapse many times per frame)
@@ -370,6 +392,7 @@ def main():
         pause_btn.draw(screen)
         fast_toggle_btn.draw(screen)
         exit_btn.draw(screen)
+        tile_switch_btn.draw(screen)
 
         pygame.display.flip()
         clock.tick(FPS)
