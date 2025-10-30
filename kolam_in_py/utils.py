@@ -64,6 +64,7 @@ class Button:
         self.font = pygame.font.SysFont(font, font_size)
         self.pressed = False
         self.toggled = False
+        self.key_flash_timer = 0
 
     def get_topleft(self):
         return self.rect.topleft
@@ -77,6 +78,12 @@ class Button:
     def get_bottomright(self):
         return self.rect.bottomright
 
+    def trigger_key_action(self):
+        if self.toggle:
+            self.toggled = not self.toggled
+        else:
+            self.key_flash_timer = 5
+
     def check_click(self, event):
         action = False
         mouse_pos = pygame.mouse.get_pos()
@@ -86,7 +93,6 @@ class Button:
                 if self.toggle:
                     self.toggled = not self.toggled
                     action = True
-
                 else:
                     self.pressed = True
                     if self.one_press:
@@ -97,7 +103,6 @@ class Button:
                     self.pressed = False
                     if not self.one_press:
                         action = True
-
         else:
             if not self.toggle and self.pressed:
                 self.pressed = False
@@ -106,29 +111,26 @@ class Button:
 
     def draw(self, screen):
         mouse_pos = pygame.mouse.get_pos()
+        color = self.colors["normal"]
 
-        if self.toggle:
-            if self.toggled and self.rect.collidepoint(mouse_pos):
-                color = self.colors["toggled_hover"]
-
-            elif self.toggled:
-                color = self.colors["pressed"]
-
+        if self.key_flash_timer > 0:
+            color = self.colors["pressed"]
+            self.key_flash_timer -= 1
+        
+        elif self.toggle:
+            if self.toggled:
+                if self.rect.collidepoint(mouse_pos):
+                    color = self.colors["toggled_hover"]
+                else:
+                    color = self.colors["pressed"]
             elif self.rect.collidepoint(mouse_pos):
                 color = self.colors["hover"]
-
-            else:
-                color = self.colors["normal"]
-
+        
         else:
             if self.pressed:
                 color = self.colors["pressed"]
-
             elif self.rect.collidepoint(mouse_pos):
                 color = self.colors["hover"]
-
-            else:
-                color = self.colors["normal"]
 
         pygame.draw.rect(screen, color, self.rect, border_radius=self.border_radius)
         text_surf = self.font.render(self.text, True, Colors.BLACK)

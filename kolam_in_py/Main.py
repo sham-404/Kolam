@@ -1,6 +1,6 @@
 from TileData import *
 from typing import List, Optional, cast
-from utils import Button, Colors
+from utils import *
 import os, sys, random, pygame
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -235,7 +235,6 @@ def change_tileset(screen):
     IMAGE_COUNT = tile_data.img_count
     tile_images = load_tile_images(TILE_PATH, IMAGE_COUNT, tile_size=64)
     return WFCGenerator(screen, tile_images)
-    
 
 
 def main():
@@ -332,9 +331,11 @@ def main():
                     running = False
 
                 elif event.key == pygame.K_r:
+                    restart_btn.trigger_key_action()
                     kolam.start_over()
 
                 elif event.key == pygame.K_p:
+                    pause_btn.trigger_key_action()
                     paused = not paused
 
             if dim_inc_btn.check_click(event):
