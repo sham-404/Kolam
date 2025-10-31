@@ -1,2 +1,42 @@
 kolam_backend/
 kolam_in_py/__pycache__/
+
+
+
+# --- Python cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual environments ---
+.venv/
+env/
+venv/
+
+# --- Editor/IDE stuff ---
+.vscode/
+.idea/
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- Logs and temp files ---
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# --- Ignore generated output ---
+assets/output/
+
+# --- But keep real assets (like tiles) ---
+!assets/tiles/
+!assets/tiles/*.png
+!assets/tiles/*.jpg
+
+# --- Optional build dirs ---
+build/
+dist/
+

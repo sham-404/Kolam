@@ -1,4 +1,4 @@
-import os, sys, random, pygame
+import os, sys, pygame
 from config import gVar
 from core.tile_data import *
 from core.wfc import WFCGenerator
