@@ -18,7 +18,6 @@ def load_tile_images(path, count, tile_size=64):
     return images
 
 def change_tileset(screen):
-    global kolam
     gVar.TILE_DATA = gVar.TILE_SET[(gVar.TILE_SET.index(gVar.TILE_DATA) + 1) % len(gVar.TILE_SET)]
     gVar.TILE_PATH = gVar.TILE_DATA.path
     IMAGE_COUNT = gVar.TILE_DATA.img_count
@@ -172,7 +171,7 @@ def main():
                     kolam.step()
             frame_count += 1
 
-        screen.fill(Colors.DARK_GRAY)
+        screen.fill(Colors.BLACK)
         kolam.draw()
 
         dim_inc_btn.draw(screen)
@@ -183,6 +182,7 @@ def main():
         exit_btn.draw(screen)
         tile_switch_btn.draw(screen)
 
+        pygame.draw.rect(screen, Colors.LIGHT_GRAY, pygame.Rect(0, 0, gVar.WIDTH, gVar.WIDTH), 1)
         pygame.display.flip()
         clock.tick(gVar.FPS)
 
