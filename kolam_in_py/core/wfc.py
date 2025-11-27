@@ -53,10 +53,10 @@ class WFCGenerator:
             i for i, tile in enumerate(self.tiles) if tile.edges[3] == edge_socket
         }
 
-        for j in range(self.dim_x):
+        for j in range(self.dim_y):
             for i in range(self.dim_x):
                 is_on_edge = (
-                    i == 0 or i == self.dim_x - 1 or j == 0 or j == self.dim_x - 1
+                    i == 0 or i == self.dim_x - 1 or j == 0 or j == self.dim_y - 1
                 )
                 if not is_on_edge:
                     continue
@@ -66,7 +66,7 @@ class WFCGenerator:
 
                 if j == 0:
                     cell_options.intersection_update(valid_up_indices)
-                if j == self.dim_x - 1:
+                if j == self.dim_y - 1:
                     cell_options.intersection_update(valid_down_indices)
                 if i == 0:
                     cell_options.intersection_update(valid_left_indices)
@@ -77,7 +77,7 @@ class WFCGenerator:
 
     def start_over(self):
         self.grid = []
-        for _ in range(self.dim_x * self.dim_x):
+        for _ in range(self.dim_x * self.dim_y):
             self.grid.append(Cell(len(self.tiles)))
 
         if gVar.TILE_DATA.edge_constraint is not None:
@@ -136,8 +136,8 @@ class WFCGenerator:
         chosen.options = [pick]
 
     def update_neighbors(self):
-        next_grid: List[Optional[Cell]] = [None] * (self.dim_x * self.dim_x)
-        for j in range(self.dim_x):
+        next_grid: List[Optional[Cell]] = [None] * (self.dim_x * self.dim_y)
+        for j in range(self.dim_y):
             for i in range(self.dim_x):
                 idx = i + j * self.dim_x
                 if self.grid[idx].collapsed:
@@ -164,7 +164,7 @@ class WFCGenerator:
                         self.check_valid(options, valid_options)
 
                     # down neighbor
-                    if j < self.dim_x - 1:
+                    if j < self.dim_y - 1:
                         down = self.grid[i + (j + 1) * self.dim_x]
                         valid_options = []
                         for opt in down.options:
@@ -198,8 +198,8 @@ class WFCGenerator:
 
     def draw(self):
         w = self.screen_width // self.dim_x
-        h = self.screen_height // self.dim_x
-        for j in range(self.dim_x):
+        h = self.screen_height // self.dim_y
+        for j in range(self.dim_y):
             for i in range(self.dim_x):
                 cell = self.grid[i + j * self.dim_x]
                 rect = pygame.Rect(i * w, j * h, w, h)
@@ -216,12 +216,16 @@ class WFCGenerator:
     def make_symmetry(self):
         if self.x_symmetry:
             self.screen_width = self.width // 2
+            self.dim_x = gVar.DIM // 2
 
         else:
             self.screen_width = self.width
+            self.dim_x = gVar.DIM
 
         if self.y_symmetry:
             self.screen_height = self.height // 2
+            self.dim_y = gVar.DIM // 2
 
         else:
             self.screen_height = self.height
+            self.dim_y = gVar.DIM
