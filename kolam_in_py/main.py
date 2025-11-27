@@ -7,6 +7,7 @@ from utils.colors import Colors
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
 def load_tile_images(path, count, tile_size=64):
     images = []
     for i in range(count):
@@ -17,8 +18,11 @@ def load_tile_images(path, count, tile_size=64):
 
     return images
 
+
 def change_tileset(screen):
-    gVar.TILE_DATA = gVar.TILE_SET[(gVar.TILE_SET.index(gVar.TILE_DATA) + 1) % len(gVar.TILE_SET)]
+    gVar.TILE_DATA = gVar.TILE_SET[
+        (gVar.TILE_SET.index(gVar.TILE_DATA) + 1) % len(gVar.TILE_SET)
+    ]
     gVar.TILE_PATH = gVar.TILE_DATA.path
     IMAGE_COUNT = gVar.TILE_DATA.img_count
     tile_images = load_tile_images(gVar.TILE_PATH, IMAGE_COUNT, tile_size=64)
@@ -127,8 +131,10 @@ def main():
 
             if dim_inc_btn.check_click(event):
                 gVar.DIM += 1
-                if gVar.width % gVar.DIM != 0:
-                    gVar.width = gVar.height = (gVar.WIDTH // gVar.DIM) * gVar.DIM
+                if kolam.width % gVar.DIM != 0:
+                    kolam.width = kolam.height = (
+                        kolam.screen_width // gVar.DIM
+                    ) * gVar.DIM
 
                 kolam.start_over()
 
@@ -137,8 +143,10 @@ def main():
                     continue
 
                 gVar.DIM -= 1
-                if gVar.width % gVar.DIM != 0:
-                    gVar.width = gVar.height = (gVar.WIDTH // gVar.DIM) * gVar.DIM
+                if kolam.width % gVar.DIM != 0:
+                    kolam.width = kolam.height = (
+                        kolam.screen_width // gVar.DIM
+                    ) * gVar.DIM
 
                 kolam.start_over()
 
@@ -182,7 +190,9 @@ def main():
         exit_btn.draw(screen)
         tile_switch_btn.draw(screen)
 
-        pygame.draw.rect(screen, Colors.LIGHT_GRAY, pygame.Rect(0, 0, gVar.WIDTH, gVar.WIDTH), 1)
+        pygame.draw.rect(
+            screen, Colors.LIGHT_GRAY, pygame.Rect(0, 0, gVar.WIDTH, gVar.WIDTH), 1
+        )
         pygame.display.flip()
         clock.tick(gVar.FPS)
 

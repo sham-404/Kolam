@@ -11,6 +11,10 @@ class WFCGenerator:
         self.tile_images = tile_images
         self.tiles: List[Tile] = []
         self.grid: List[Cell] = []
+        self.width = gVar.WIDTH
+        self.height = gVar.HEIGHT
+        self.screen_width = self.width // 2
+        self.screen_height = self.height // 2
         self.setup_tiles()
         self.start_over()
 
@@ -187,8 +191,8 @@ class WFCGenerator:
         self.update_neighbors()
 
     def draw(self):
-        w = gVar.width / gVar.DIM
-        h = gVar.height / gVar.DIM
+        w = self.screen_width // gVar.DIM
+        h = self.screen_height // gVar.DIM
         for j in range(gVar.DIM):
             for i in range(gVar.DIM):
                 cell = self.grid[i + j * gVar.DIM]
@@ -202,5 +206,3 @@ class WFCGenerator:
                 else:
                     # draw grid rectangle for undecided cell
                     pygame.draw.rect(self.screen, Colors.MEDIUM_GRAY, rect, 1)
-
-
