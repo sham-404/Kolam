@@ -97,6 +97,24 @@ def main():
         text="Change tiles",
     )
 
+    symmetric_x_btn = Button(
+        x=pause_btn.get_bottomleft()[0],
+        y=pause_btn.get_bottomleft()[1] + btn_pad_y,
+        width=40,
+        height=20,
+        text="Left",
+        toggle=True,
+    )
+
+    symmetric_y_btn = Button(
+        x=symmetric_x_btn.get_topright()[0] + 10,
+        y=symmetric_x_btn.get_topright()[1],
+        width=40,
+        height=20,
+        text="Top",
+        toggle=True,
+    )
+
     # Start of program logic
 
     tile_images = load_tile_images(gVar.TILE_PATH, gVar.IMAGE_COUNT, tile_size=64)
@@ -130,23 +148,35 @@ def main():
                     paused = not paused
 
             if dim_inc_btn.check_click(event):
-                gVar.DIM += 1
-                if kolam.width % gVar.DIM != 0:
-                    kolam.width = kolam.height = (
-                        kolam.screen_width // gVar.DIM
-                    ) * gVar.DIM
+                kolam.dim_x += 1
+                kolam.dim_y += 1
+                if kolam.width % kolam.dim_x != 0:
+                    kolam.screen_width = (
+                        kolam.screen_width // kolam.dim_x
+                    ) * kolam.dim_x
+
+                if kolam.height % kolam.dim_y != 0:
+                    kolam.screen_height = (
+                        kolam.screen_height // kolam.dim_y
+                    ) * kolam.dim_y
 
                 kolam.start_over()
 
             elif dim_dcr_btn.check_click(event):
-                if gVar.DIM == 2:
+                if kolam.dim_x == 2:
                     continue
 
-                gVar.DIM -= 1
-                if kolam.width % gVar.DIM != 0:
-                    kolam.width = kolam.height = (
-                        kolam.screen_width // gVar.DIM
-                    ) * gVar.DIM
+                kolam.dim_x -= 1
+                kolam.dim_y -= 1
+                if kolam.width % kolam.dim_x != 0:
+                    kolam.screen_width = (
+                        kolam.screen_width // kolam.dim_x
+                    ) * kolam.dim_x
+
+                if kolam.height % kolam.dim_y != 0:
+                    kolam.screen_height = (
+                        kolam.screen_height // kolam.dim_y
+                    ) * kolam.dim_y
 
                 kolam.start_over()
 
@@ -169,6 +199,14 @@ def main():
                 kolam = change_tileset(screen)
                 kolam.start_over()
 
+            elif symmetric_x_btn.check_click(event):
+                kolam.x_symmetry = not kolam.x_symmetry
+                kolam.make_symmetry()
+
+            elif symmetric_y_btn.check_click(event):
+                kolam.y_symmetry = not kolam.y_symmetry
+                kolam.make_symmetry()
+
         if not paused:
             if frames_between_steps == 0:
                 # very fast (collapse many times per frame)
@@ -189,6 +227,8 @@ def main():
         fast_toggle_btn.draw(screen)
         exit_btn.draw(screen)
         tile_switch_btn.draw(screen)
+        symmetric_x_btn.draw(screen)
+        symmetric_y_btn.draw(screen)
 
         pygame.draw.rect(
             screen, Colors.LIGHT_GRAY, pygame.Rect(0, 0, gVar.WIDTH, gVar.WIDTH), 1

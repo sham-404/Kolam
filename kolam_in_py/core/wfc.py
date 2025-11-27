@@ -11,10 +11,14 @@ class WFCGenerator:
         self.tile_images = tile_images
         self.tiles: List[Tile] = []
         self.grid: List[Cell] = []
-        self.width = gVar.WIDTH
+        self.width = gVar.WIDTH  # Rezised width size of the whole screen
         self.height = gVar.HEIGHT
-        self.screen_width = self.width // 2
-        self.screen_height = self.height // 2
+        self.screen_width = self.width  # Width of the actual drawing screen
+        self.screen_height = self.height
+        self.x_symmetry = False
+        self.y_symmetry = False
+        self.dim_x = gVar.DIM
+        self.dim_y = gVar.DIM
         self.setup_tiles()
         self.start_over()
 
@@ -49,29 +53,31 @@ class WFCGenerator:
             i for i, tile in enumerate(self.tiles) if tile.edges[3] == edge_socket
         }
 
-        for j in range(gVar.DIM):
-            for i in range(gVar.DIM):
-                is_on_edge = i == 0 or i == gVar.DIM - 1 or j == 0 or j == gVar.DIM - 1
+        for j in range(self.dim_x):
+            for i in range(self.dim_x):
+                is_on_edge = (
+                    i == 0 or i == self.dim_x - 1 or j == 0 or j == self.dim_x - 1
+                )
                 if not is_on_edge:
                     continue
 
-                idx = i + j * gVar.DIM
+                idx = i + j * self.dim_x
                 cell_options = set(self.grid[idx].options)
 
                 if j == 0:
                     cell_options.intersection_update(valid_up_indices)
-                if j == gVar.DIM - 1:
+                if j == self.dim_x - 1:
                     cell_options.intersection_update(valid_down_indices)
                 if i == 0:
                     cell_options.intersection_update(valid_left_indices)
-                if i == gVar.DIM - 1:
+                if i == self.dim_x - 1:
                     cell_options.intersection_update(valid_right_indices)
 
                 self.grid[idx].options = list(cell_options)
 
     def start_over(self):
         self.grid = []
-        for _ in range(gVar.DIM * gVar.DIM):
+        for _ in range(self.dim_x * self.dim_x):
             self.grid.append(Cell(len(self.tiles)))
 
         if gVar.TILE_DATA.edge_constraint is not None:
@@ -130,10 +136,10 @@ class WFCGenerator:
         chosen.options = [pick]
 
     def update_neighbors(self):
-        next_grid: List[Optional[Cell]] = [None] * (gVar.DIM * gVar.DIM)
-        for j in range(gVar.DIM):
-            for i in range(gVar.DIM):
-                idx = i + j * gVar.DIM
+        next_grid: List[Optional[Cell]] = [None] * (self.dim_x * self.dim_x)
+        for j in range(self.dim_x):
+            for i in range(self.dim_x):
+                idx = i + j * self.dim_x
                 if self.grid[idx].collapsed:
                     next_grid[idx] = self.grid[idx]
 
@@ -143,23 +149,23 @@ class WFCGenerator:
 
                     # up neighbor
                     if j > 0:
-                        up = self.grid[i + (j - 1) * gVar.DIM]
+                        up = self.grid[i + (j - 1) * self.dim_x]
                         valid_options = []
                         for opt in up.options:
                             valid_options.extend(self.tiles[opt].down)
                         self.check_valid(options, valid_options)
 
                     # right neighbor
-                    if i < gVar.DIM - 1:
-                        right = self.grid[i + 1 + j * gVar.DIM]
+                    if i < self.dim_x - 1:
+                        right = self.grid[i + 1 + j * self.dim_x]
                         valid_options = []
                         for opt in right.options:
                             valid_options.extend(self.tiles[opt].left)
                         self.check_valid(options, valid_options)
 
                     # down neighbor
-                    if j < gVar.DIM - 1:
-                        down = self.grid[i + (j + 1) * gVar.DIM]
+                    if j < self.dim_x - 1:
+                        down = self.grid[i + (j + 1) * self.dim_x]
                         valid_options = []
                         for opt in down.options:
                             valid_options.extend(self.tiles[opt].up)
@@ -167,7 +173,7 @@ class WFCGenerator:
 
                     # left neighbor
                     if i > 0:
-                        left = self.grid[i - 1 + j * gVar.DIM]
+                        left = self.grid[i - 1 + j * self.dim_x]
                         valid_options = []
                         for opt in left.options:
                             valid_options.extend(self.tiles[opt].right)
@@ -191,11 +197,11 @@ class WFCGenerator:
         self.update_neighbors()
 
     def draw(self):
-        w = self.screen_width // gVar.DIM
-        h = self.screen_height // gVar.DIM
-        for j in range(gVar.DIM):
-            for i in range(gVar.DIM):
-                cell = self.grid[i + j * gVar.DIM]
+        w = self.screen_width // self.dim_x
+        h = self.screen_height // self.dim_x
+        for j in range(self.dim_x):
+            for i in range(self.dim_x):
+                cell = self.grid[i + j * self.dim_x]
                 rect = pygame.Rect(i * w, j * h, w, h)
                 if cell.collapsed:
                     index = cell.options[0]
@@ -206,3 +212,16 @@ class WFCGenerator:
                 else:
                     # draw grid rectangle for undecided cell
                     pygame.draw.rect(self.screen, Colors.MEDIUM_GRAY, rect, 1)
+
+    def make_symmetry(self):
+        if self.x_symmetry:
+            self.screen_width = self.width // 2
+
+        else:
+            self.screen_width = self.width
+
+        if self.y_symmetry:
+            self.screen_height = self.height // 2
+
+        else:
+            self.screen_height = self.height
