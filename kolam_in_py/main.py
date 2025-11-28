@@ -232,6 +232,18 @@ def main():
         screen.fill(Colors.BLACK)
         kolam.draw()
 
+        if kolam.x_symmetry:
+            left_side = pygame.Rect(0, 0, kolam.screen_width, kolam.height)
+            left_side_copy = screen.subsurface(left_side).copy()
+            rotated_right_side = pygame.transform.flip(left_side_copy, True, False)
+            screen.blit(rotated_right_side, (kolam.screen_width, 0))
+
+        if kolam.y_symmetry:
+            top_side = pygame.Rect(0, 0, kolam.width, kolam.screen_height)
+            top_side_copy = screen.subsurface(top_side).copy()
+            rotated_bottom_side = pygame.transform.flip(top_side_copy, False, True)
+            screen.blit(rotated_bottom_side, (0, kolam.screen_height))
+
         dim_inc_btn.draw(screen)
         dim_dcr_btn.draw(screen)
         restart_btn.draw(screen)
