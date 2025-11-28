@@ -150,6 +150,11 @@ def main():
             if dim_inc_btn.check_click(event):
                 kolam.dim_x += 1 + kolam.y_symmetry
                 kolam.dim_y += 1 + kolam.x_symmetry
+
+                if kolam.x_symmetry and kolam.y_symmetry:
+                    kolam.dim_x -= 1
+                    kolam.dim_y -= 1
+
                 if kolam.width % kolam.dim_x != 0:
                     kolam.screen_width = (
                         kolam.screen_width // kolam.dim_x
@@ -168,6 +173,11 @@ def main():
 
                 kolam.dim_x -= 1 + kolam.y_symmetry
                 kolam.dim_y -= 1 + kolam.x_symmetry
+
+                if kolam.x_symmetry and kolam.y_symmetry:
+                    kolam.dim_x += 1
+                    kolam.dim_y += 1
+
                 if kolam.width % kolam.dim_x != 0:
                     kolam.screen_width = (
                         kolam.screen_width // kolam.dim_x
@@ -202,8 +212,6 @@ def main():
             elif symmetric_x_btn.check_click(event):
                 kolam.x_symmetry = not kolam.x_symmetry
                 kolam.make_symmetry()
-                print(kolam.dim_x)
-                print(kolam.dim_y)
                 kolam.start_over()
 
             elif symmetric_y_btn.check_click(event):
