@@ -155,22 +155,7 @@ def main():
                     kolam.dim_x -= 1
                     kolam.dim_y -= 1
 
-                if kolam.x_symmetry:
-                    kolam.width = (gVar.WIDTH // (kolam.dim_x * 2)) * (kolam.dim_x * 2)
-                    kolam.screen_width = kolam.width // 2
-                else:
-                    kolam.width = (gVar.WIDTH // kolam.dim_x) * kolam.dim_x
-                    kolam.screen_width = kolam.width
-
-                if kolam.y_symmetry:
-                    kolam.height = (gVar.HEIGHT // (kolam.dim_y * 2)) * (
-                        kolam.dim_y * 2
-                    )
-                    kolam.screen_height = kolam.height // 2
-                else:
-                    kolam.height = (gVar.HEIGHT // kolam.dim_y) * kolam.dim_y
-                    kolam.screen_height = kolam.height
-
+                kolam.change_screen_size()
                 kolam.start_over()
 
             elif dim_dcr_btn.check_click(event):
@@ -184,22 +169,7 @@ def main():
                     kolam.dim_x += 1
                     kolam.dim_y += 1
 
-                if kolam.x_symmetry:
-                    kolam.width = (gVar.WIDTH // (kolam.dim_x * 2)) * (kolam.dim_x * 2)
-                    kolam.screen_width = kolam.width // 2
-                else:
-                    kolam.width = (gVar.WIDTH // kolam.dim_x) * kolam.dim_x
-                    kolam.screen_width = kolam.width
-
-                if kolam.y_symmetry:
-                    kolam.height = (gVar.HEIGHT // (kolam.dim_y * 2)) * (
-                        kolam.dim_y * 2
-                    )
-                    kolam.screen_height = kolam.height // 2
-                else:
-                    kolam.height = (gVar.HEIGHT // kolam.dim_y) * kolam.dim_y
-                    kolam.screen_height = kolam.height
-
+                kolam.change_screen_size()
                 kolam.start_over()
 
             elif restart_btn.check_click(event):

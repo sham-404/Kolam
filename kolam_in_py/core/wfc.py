@@ -66,11 +66,11 @@ class WFCGenerator:
 
                 if j == 0:
                     cell_options.intersection_update(valid_up_indices)
-                if j == self.dim_y - 1:
+                if j == self.dim_y - 1 and not self.y_symmetry:
                     cell_options.intersection_update(valid_down_indices)
                 if i == 0:
                     cell_options.intersection_update(valid_left_indices)
-                if i == self.dim_x - 1:
+                if i == self.dim_x - 1 and not self.x_symmetry:
                     cell_options.intersection_update(valid_right_indices)
 
                 self.grid[idx].options = list(cell_options)
@@ -229,3 +229,18 @@ class WFCGenerator:
         else:
             self.screen_height = gVar.HEIGHT
             self.dim_y = gVar.DIM
+
+    def change_screen_size(self):
+        if self.x_symmetry:
+            self.width = (gVar.WIDTH // (self.dim_x * 2)) * (self.dim_x * 2)
+            self.screen_width = self.width // 2
+        else:
+            self.width = (gVar.WIDTH // self.dim_x) * self.dim_x
+            self.screen_width = self.width
+
+        if self.y_symmetry:
+            self.height = (gVar.HEIGHT // (self.dim_y * 2)) * (self.dim_y * 2)
+            self.screen_height = self.height // 2
+        else:
+            self.height = (gVar.HEIGHT // self.dim_y) * self.dim_y
+            self.screen_height = self.height
