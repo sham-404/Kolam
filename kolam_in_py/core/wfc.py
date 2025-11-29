@@ -215,17 +215,17 @@ class WFCGenerator:
 
     def make_symmetry(self):
         if self.x_symmetry:
-            self.screen_width = self.width // 2
+            self.screen_width = gVar.WIDTH // 2
             self.dim_x = gVar.DIM // 2
 
         else:
-            self.screen_width = self.width
+            self.screen_width = gVar.WIDTH
             self.dim_x = gVar.DIM
 
         if self.y_symmetry:
-            self.screen_height = self.height // 2
+            self.screen_height = gVar.HEIGHT // 2
             self.dim_y = gVar.DIM // 2
 
         else:
-            self.screen_height = self.height
+            self.screen_height = gVar.HEIGHT
             self.dim_y = gVar.DIM

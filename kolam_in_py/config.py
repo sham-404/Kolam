@@ -11,19 +11,3 @@ class gVar:
     WIDTH = 550
     HEIGHT = 550
     FPS = 60
-
-
-class Symmetry(gVar):
-    def make_symmetry(self, on_x: bool = False, on_y: bool = False):
-        if on_x:
-            self.SCREEN_WIDTH = self.WIDTH // 2
-
-        if on_y:
-            self.SCREEN_HIGHT = self.HEIGHT // 2
-
-    def remove_symmetry(self, on_x: bool = False, on_y: bool = False):
-        if on_x:
-            self.SCREEN_WIDTH = self.WIDTH
-
-        if on_y:
-            self.SCREEN_HIGHT = self.HEIGHT

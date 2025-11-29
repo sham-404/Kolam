@@ -155,16 +155,28 @@ def main():
                     kolam.dim_x -= 1
                     kolam.dim_y -= 1
 
-                if kolam.width % kolam.dim_x != 0:
-                    kolam.screen_width = (
-                        kolam.screen_width // kolam.dim_x
-                    ) * kolam.dim_x
+                if kolam.x_symmetry:
+                    kolam.width = (gVar.WIDTH // (kolam.dim_x * 2)) * (kolam.dim_x * 2)
+                    kolam.screen_width = kolam.width // 2
+                else:
+                    kolam.width = (gVar.WIDTH // kolam.dim_x) * kolam.dim_x
+                    kolam.screen_width = kolam.width
 
-                if kolam.height % kolam.dim_y != 0:
-                    kolam.screen_height = (
-                        kolam.screen_height // kolam.dim_y
-                    ) * kolam.dim_y
+                if kolam.y_symmetry:
+                    kolam.height = (gVar.HEIGHT // (kolam.dim_y * 2)) * (
+                        kolam.dim_y * 2
+                    )
+                    kolam.screen_height = kolam.height // 2
+                else:
+                    kolam.height = (gVar.HEIGHT // kolam.dim_y) * kolam.dim_y
+                    kolam.screen_height = kolam.height
 
+                print("screen width: ", kolam.screen_width)
+                print("screen height: ", kolam.screen_height)
+                print("width: ", kolam.width)
+                print("height: ", kolam.height)
+                print("dim x", kolam.dim_x)
+                print("dim y", kolam.dim_y)
                 kolam.start_over()
 
             elif dim_dcr_btn.check_click(event):
@@ -178,15 +190,27 @@ def main():
                     kolam.dim_x += 1
                     kolam.dim_y += 1
 
-                if kolam.width % kolam.dim_x != 0:
-                    kolam.screen_width = (
-                        kolam.screen_width // kolam.dim_x
-                    ) * kolam.dim_x
+                if kolam.x_symmetry:
+                    kolam.width = (gVar.WIDTH // (kolam.dim_x * 2)) * (kolam.dim_x * 2)
+                    kolam.screen_width = kolam.width // 2
+                else:
+                    kolam.width = (gVar.WIDTH // kolam.dim_x) * kolam.dim_x
+                    kolam.screen_width = kolam.width
 
-                if kolam.height % kolam.dim_y != 0:
-                    kolam.screen_height = (
-                        kolam.screen_height // kolam.dim_y
-                    ) * kolam.dim_y
+                if kolam.y_symmetry:
+                    kolam.height = (gVar.HEIGHT // (kolam.dim_y * 2)) * (
+                        kolam.dim_y * 2
+                    )
+                    kolam.screen_height = kolam.height // 2
+                else:
+                    kolam.height = (gVar.HEIGHT // kolam.dim_y) * kolam.dim_y
+                    kolam.screen_height = kolam.height
+                print("screen width: ", kolam.screen_width)
+                print("screen height: ", kolam.screen_height)
+                print("width: ", kolam.width)
+                print("height: ", kolam.height)
+                print("dim x", kolam.dim_x)
+                print("dim y", kolam.dim_y)
 
                 kolam.start_over()
 
