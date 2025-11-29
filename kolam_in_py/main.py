@@ -171,12 +171,6 @@ def main():
                     kolam.height = (gVar.HEIGHT // kolam.dim_y) * kolam.dim_y
                     kolam.screen_height = kolam.height
 
-                print("screen width: ", kolam.screen_width)
-                print("screen height: ", kolam.screen_height)
-                print("width: ", kolam.width)
-                print("height: ", kolam.height)
-                print("dim x", kolam.dim_x)
-                print("dim y", kolam.dim_y)
                 kolam.start_over()
 
             elif dim_dcr_btn.check_click(event):
@@ -205,12 +199,6 @@ def main():
                 else:
                     kolam.height = (gVar.HEIGHT // kolam.dim_y) * kolam.dim_y
                     kolam.screen_height = kolam.height
-                print("screen width: ", kolam.screen_width)
-                print("screen height: ", kolam.screen_height)
-                print("width: ", kolam.width)
-                print("height: ", kolam.height)
-                print("dim x", kolam.dim_x)
-                print("dim y", kolam.dim_y)
 
                 kolam.start_over()
 
