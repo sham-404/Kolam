@@ -230,7 +230,7 @@ class WFCGenerator:
             self.screen_height = gVar.HEIGHT
             self.dim_y = gVar.DIM
 
-    def change_screen_size(self):
+    def adjust_screen_size(self):
         if self.x_symmetry:
             self.width = (gVar.WIDTH // (self.dim_x * 2)) * (self.dim_x * 2)
             self.screen_width = self.width // 2

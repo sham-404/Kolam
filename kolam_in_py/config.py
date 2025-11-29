@@ -7,7 +7,7 @@ class gVar:
     TILE_PATH = TILE_DATA.path
     IMAGE_COUNT = TILE_DATA.img_count
 
-    DIM: int = 6
-    WIDTH = 550
-    HEIGHT = 550
+    DIM: int = 8
+    WIDTH = 560
+    HEIGHT = 560
     FPS = 60

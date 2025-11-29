@@ -155,7 +155,7 @@ def main():
                     kolam.dim_x -= 1
                     kolam.dim_y -= 1
 
-                kolam.change_screen_size()
+                kolam.adjust_screen_size()
                 kolam.start_over()
 
             elif dim_dcr_btn.check_click(event):
@@ -169,7 +169,7 @@ def main():
                     kolam.dim_x += 1
                     kolam.dim_y += 1
 
-                kolam.change_screen_size()
+                kolam.adjust_screen_size()
                 kolam.start_over()
 
             elif restart_btn.check_click(event):
